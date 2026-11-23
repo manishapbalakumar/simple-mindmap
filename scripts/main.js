@@ -763,7 +763,7 @@ class MindMapEditor extends Application {
         if (isGM) {
             html += `<div class="note-input-row">
                 <input type="text" class="new-note-input" placeholder="${game.i18n.localize("SIMPLE_MINDMAP.NOTE_PLACEHOLDER") || "Текст заметки..."}">
-                <label title="Скрытая заметка GM" style="display:flex; align-items:center; gap:2px; font-size:10px;"><input type="checkbox" class="is-gm-note-cb" style="width:12px; height:12px; margin:0;"> GM</label>
+                <label title="${game.i18n.localize("SIMPLE_MINDMAP.HIDDEN_GM_NOTE")}" style="display:flex; align-items:center; gap:2px; font-size:10px;"><input type="checkbox" class="is-gm-note-cb" style="width:12px; height:12px; margin:0;"> GM</label>
                 <button class="add-note-btn"><i class="fas fa-plus"></i></button>
             </div>`;
         }
@@ -852,7 +852,7 @@ class MindMapEditor extends Application {
                 <div class="mindmap-ui">
                     <div class="mindmap-ui-top">
                         <button class="mm-btn" id="refresh-map" title="${game.i18n.localize("SIMPLE_MINDMAP.HELP_RESET_VIEW") || 'Вернуться к центру'}"><i class="fas fa-compress-arrows-alt"></i></button>
-                        ${canEditMap ? `<button class="mm-btn" id="save-view" title="Сохранить текущий вид как центр по умолчанию"><i class="fas fa-crosshairs"></i></button>` : ''}
+                        ${canEditMap ? `<button class="mm-btn" id="save-view" title="${game.i18n.localize("SIMPLE_MINDMAP.SAVE_VIEW_CENTER_TITLE")}"><i class="fas fa-crosshairs"></i></button>` : ''}
                         <button class="mm-btn" id="toggle-help" title="${game.i18n.localize("SIMPLE_MINDMAP.TOOLBAR_HELP") || 'Помощь'}"><i class="fas fa-question"></i></button>
                     </div>
                     <div class="help-text" id="help-text-content">
@@ -925,7 +925,7 @@ class MindMapEditor extends Application {
                 if (this.mapData) {
                     this.mapData.defaultView = { x: this.pan.x, y: this.pan.y, zoom: this.zoom };
                     MindMapData.updateMap(this.mapId, this.mapData);
-                    ui.notifications.info("Положение холста сохранено как центр по умолчанию.");
+                    ui.notifications.info(game.i18n.localize("SIMPLE_MINDMAP.NOTIFICATION_VIEW_SAVED"));
                 }
             });
         }
@@ -1219,7 +1219,7 @@ class MindMapEditor extends Application {
         this.mapData.nodes.push({
             id: foundry.utils.randomID(),
             nodeType: 'text',
-            name: "Новый текст",
+            name: game.i18n.localize("SIMPLE_MINDMAP.DEFAULT_TEXT_NAME"),
             x: centerX, y: centerY,
             hidden: false,
             backgroundColor: "transparent",
@@ -1240,7 +1240,7 @@ class MindMapEditor extends Application {
         if (!this.mapData.groups) this.mapData.groups = [];
         this.mapData.groups.push({
             id: foundry.utils.randomID(),
-            name: "Новое Поле",
+            name: game.i18n.localize("SIMPLE_MINDMAP.DEFAULT_GROUP_NAME"),
             x: centerX - 100, y: centerY - 100,
             width: 200, height: 200,
             color: "#333333",
@@ -1502,7 +1502,7 @@ class MindMapEditor extends Application {
             if (isGM) {
                 controlsHtml = `
                 <div class="node-controls">
-                    <div class="node-control-btn node-vis-toggle ${node.hidden ? 'active' : ''}" data-id="${node.id}" title="Скрыть/Показать">
+                    <div class="node-control-btn node-vis-toggle ${node.hidden ? 'active' : ''}" data-id="${node.id}" title="${game.i18n.localize("SIMPLE_MINDMAP.TOGGLE_VISIBILITY")}">
                         <i class="fas ${node.hidden ? 'fa-eye-slash' : 'fa-eye'}"></i>
                     </div>
                 </div>`;
@@ -1834,16 +1834,16 @@ class MindMapEditor extends Application {
                 <div class="connection-handle gm-handle ${gmHiddenClass}" data-id="${connData.id}" style="left: ${posx}px; top: ${posy}px;">
                     <div class="conn-inner">
                         <div class="conn-top-row">
-                            <div class="conn-part-text conn-settings-btn" title="Shift+Клик - Новая ветка, Даблклик - Настройки">${connData.text || '<i class="fas fa-link"></i>'}</div>
+                            <div class="conn-part-text conn-settings-btn" title="${game.i18n.localize("SIMPLE_MINDMAP.CONNECTION_CREATE_BRANCH_EDIT_TITLE")}">${connData.text || '<i class="fas fa-link"></i>'}</div>
                         </div>
                         <div class="conn-bottom-row">
-                            <div class="conn-part-btn conn-vis-toggle ${connData.hidden ? 'active' : ''}" data-id="${connData.id}" title="Видимость">
+                            <div class="conn-part-btn conn-vis-toggle ${connData.hidden ? 'active' : ''}" data-id="${connData.id}" title="${game.i18n.localize("SIMPLE_MINDMAP.TOGGLE_VISIBILITY")}">
                                 <i class="fas ${connData.hidden ? 'fa-eye-slash' : 'fa-eye'}"></i>
                             </div>
-                            <div class="conn-part-btn conn-lock-toggle ${connData.pinned ? 'active' : ''}" data-id="${connData.id}" title="Закрепить позицию (Булавка)">
+                            <div class="conn-part-btn conn-lock-toggle ${connData.pinned ? 'active' : ''}" data-id="${connData.id}" title="${game.i18n.localize("SIMPLE_MINDMAP.CONNECTION_PIN_POSITION")}">
                                 <i class="fas fa-thumbtack"></i>
                             </div>
-                            <div class="conn-part-btn conn-move-handle ${connData.pinned ? '' : 'disabled'}" data-id="${connData.id}" title="Переместить (требуется булавка)">
+                            <div class="conn-part-btn conn-move-handle ${connData.pinned ? '' : 'disabled'}" data-id="${connData.id}" title="${game.i18n.localize("SIMPLE_MINDMAP.CONNECTION_MOVE_PINNED")}">
                                 <i class="fas fa-arrows-alt"></i>
                             </div>
                         </div>
@@ -2368,9 +2368,9 @@ class MindMapEditor extends Application {
                     <div class="mm-dialog-row">
                         <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TYPE") || "Тип"}</label>
                         <select id="conn-stroke">
-                            <option value="solid" ${currentStroke === 'solid' ? 'selected' : ''}>Сплошная</option>
-                            <option value="dashed" ${currentStroke === 'dashed' ? 'selected' : ''}>Пунктир</option>
-                            <option value="dotted" ${currentStroke === 'dotted' ? 'selected' : ''}>Точки</option>
+                            <option value="solid" ${currentStroke === 'solid' ? 'selected' : ''}>${game.i18n.localize("SIMPLE_MINDMAP.LINE_TYPE_SOLID")}</option>
+                            <option value="dashed" ${currentStroke === 'dashed' ? 'selected' : ''}>${game.i18n.localize("SIMPLE_MINDMAP.LINE_TYPE_DASHED")}</option>
+                            <option value="dotted" ${currentStroke === 'dotted' ? 'selected' : ''}>${game.i18n.localize("SIMPLE_MINDMAP.LINE_TYPE_DOTTED")}</option>
                         </select>
                     </div>
                     <div class="mm-dialog-row">
@@ -2456,21 +2456,21 @@ class MindMapEditor extends Application {
         const dialogContent = `
             <div class="mm-dialog-content">
                 <div class="mm-dialog-row">
-                    <label>Название</label>
+                    <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_NAME")}</label>
                     <input type="text" id="node-name" value="${node.name}">
                 </div>
                 <div class="mm-dialog-row">
-                    <label>Цвет фона</label>
+                    <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_BG")}</label>
                     <div style="display:flex; flex:1; gap:5px; align-items:center;">
                         <input type="color" id="node-bg" value="${bgColor === '' ? '#2b2b2b' : bgColor}" style="flex:1;">
                         <label style="flex: 0 0 auto; display:flex; align-items:center; gap:3px; font-weight: normal; font-size: 12px;">
                             <input type="checkbox" id="node-bg-default" ${bgColor === '' ? 'checked' : ''}>
-                            По умолчанию
+                            ${game.i18n.localize("SIMPLE_MINDMAP.LABEL_DEFAULT")}
                         </label>
                     </div>
                 </div>
                 <div class="mm-dialog-row" style="align-items: flex-start;">
-                    <label>Комментарий</label>
+                    <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_COMMENT")}</label>
                     <textarea id="node-comment" rows="3" style="resize:vertical;">${comment}</textarea>
                 </div>
                 <div class="mm-dialog-row">
@@ -2487,22 +2487,22 @@ class MindMapEditor extends Application {
                     <input type="checkbox" id="node-hidden" ${isHidden ? 'checked' : ''}>
                 </div>` : ''}
                 <div class="mm-dialog-row">
-                    <label>UUID ссылки</label>
-                    <input type="text" id="node-link" value="${link}" placeholder="Вставьте UUID...">
+                    <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_LINK")}</label>
+                    <input type="text" id="node-link" value="${link}" placeholder="${game.i18n.localize("SIMPLE_MINDMAP.PLACEHOLDER_UUID")}">
                     <input type="hidden" id="node-link-name" value="${linkName}">
                 </div>
                 <div class="drop-zone" id="drop-zone-link">
-                    Бросьте сюда объект для ссылки
+                    ${game.i18n.localize("SIMPLE_MINDMAP.DROP_ZONE_LINK")}
                 </div>
             </div>
         `;
 
         new Dialog({
-            title: "Настройки Карточки",
+            title: game.i18n.localize("SIMPLE_MINDMAP.DIALOG_CARD_SETTINGS"),
             content: dialogContent,
             buttons: {
                 save: {
-                    label: "Сохранить",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_SAVE"),
                     icon: '<i class="fas fa-check"></i>',
                     callback: (html) => {
                         node.name = html.find('#node-name').val();
@@ -2527,7 +2527,7 @@ class MindMapEditor extends Application {
                     }
                 },
                 delete: {
-                    label: "Удалить Узел",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_DELETE_NODE"),
                     icon: '<i class="fas fa-trash"></i>',
                     callback: () => {
                         this.mapData.nodes = this.mapData.nodes.filter(n => n.id !== nodeId);
@@ -2553,7 +2553,7 @@ class MindMapEditor extends Application {
                             html.find('#node-link').val(data.uuid);
                             const doc = await fromUuid(data.uuid);
                             if(doc) {
-                                dropZone.innerText = `Связано: ${doc.name}`;
+                                dropZone.innerText = game.i18n.format("SIMPLE_MINDMAP.NOTIFICATION_LINKED_DOCUMENT", { docName: doc.name });
                                 html.find('#node-link-name').val(doc.name);
                             }
                         }
@@ -2573,22 +2573,22 @@ class MindMapEditor extends Application {
         const bgColor = node.backgroundColor || "transparent";
 
         new Dialog({
-            title: "Настройки Текста",
+            title: game.i18n.localize("SIMPLE_MINDMAP.DIALOG_TEXT_SETTINGS"),
             content: `
                 <div class="mm-dialog-content">
-                    <div class="mm-dialog-row"><label>Текст</label><input type="text" id="text-content" value="${node.name}"></div>
-                    <div class="mm-dialog-row"><label>Размер (px)</label><input type="number" id="text-size" value="${style.fontSize}"></div>
-                    <div class="mm-dialog-row"><label>Цвет текста</label><input type="color" id="text-color" value="${style.color}"></div>
-                    <div class="mm-dialog-row"><label>Цвет фона</label>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TEXT_CONTENT")}</label><input type="text" id="text-content" value="${node.name}"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TEXT_SIZE")}</label><input type="number" id="text-size" value="${style.fontSize}"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TEXT_COLOR")}</label><input type="color" id="text-color" value="${style.color}"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_BG")}</label>
                         <div style="display:flex; flex:1; gap:5px; align-items:center;">
                             <input type="color" id="text-bg-color" value="${bgColor === 'transparent' ? '#000000' : bgColor}" style="flex:1;">
                             <label style="flex: 0 0 auto; display:flex; align-items:center; gap:3px;">
                                 <input type="checkbox" id="text-bg-transparent" ${bgColor === 'transparent' ? 'checked' : ''}>
-                                Прозр.
+                                ${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TRANSPARENT")}
                             </label>
                         </div>
                     </div>
-                    <div class="mm-dialog-row"><label>Шрифт</label>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_TEXT_FONT")}</label>
                         <select id="text-font">
                             <option value="Signika" ${style.fontFamily === 'Signika' ? 'selected' : ''}>Signika</option>
                             <option value="Arial" ${style.fontFamily === 'Arial' ? 'selected' : ''}>Arial</option>
@@ -2610,7 +2610,7 @@ class MindMapEditor extends Application {
             `,
             buttons: {
                 save: {
-                    label: "Сохранить",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_SAVE"),
                     icon: '<i class="fas fa-check"></i>',
                     callback: (html) => {
                         node.name = html.find('#text-content').val();
@@ -2635,7 +2635,7 @@ class MindMapEditor extends Application {
                     }
                 },
                 delete: {
-                    label: "Удалить",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_DELETE"),
                     icon: '<i class="fas fa-trash"></i>',
                     callback: () => {
                         this.mapData.nodes = this.mapData.nodes.filter(n => n.id !== nodeId);
@@ -2656,17 +2656,17 @@ class MindMapEditor extends Application {
         const hasNotes = group.hasNotes === true;
 
         new Dialog({
-            title: "Настройки Поля",
+            title: game.i18n.localize("SIMPLE_MINDMAP.DIALOG_GROUP_SETTINGS"),
             content: `
                 <div class="mm-dialog-content">
-                    <div class="mm-dialog-row"><label>Название</label><input type="text" id="group-name" value="${group.name}"></div>
-                    <div class="mm-dialog-row"><label>Цвет</label><input type="color" id="group-color" value="${group.color}"></div>
-                    <div class="mm-dialog-row"><label>Прозрачность</label><input type="number" id="group-alpha" value="${group.alpha}" min="0" max="1" step="0.1"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_NODE_NAME")}</label><input type="text" id="group-name" value="${group.name}"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_COLOR")}</label><input type="color" id="group-color" value="${group.color}"></div>
+                    <div class="mm-dialog-row"><label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_OPACITY")}</label><input type="number" id="group-alpha" value="${group.alpha}" min="0" max="1" step="0.1"></div>
                     <div class="mm-dialog-row">
                         <label>${game.i18n.localize("SIMPLE_MINDMAP.LABEL_BG_IMAGE") || "Фон"}</label>
                         <div style="display: flex; flex: 1; gap: 5px;">
                             <input type="text" id="group-bg-image" value="${group.bgImage || ''}">
-                            ${game.user.isGM ? `<button type="button" class="file-picker" data-type="image" data-target="group-bg-image" title="Browse Files" style="flex: 0 0 30px;"><i class="fas fa-file-import fa-fw"></i></button>` : ''}
+                            ${game.user.isGM ? `<button type="button" class="file-picker" data-type="image" data-target="group-bg-image" title="${game.i18n.localize("SIMPLE_MINDMAP.BUTTON_BROWSE_FILES")}" style="flex: 0 0 30px;"><i class="fas fa-file-import fa-fw"></i></button>` : ''}
                         </div>
                     </div>
                     <div class="mm-dialog-row">
@@ -2677,7 +2677,7 @@ class MindMapEditor extends Application {
             `,
             buttons: {
                 save: {
-                    label: "Сохранить",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_SAVE"),
                     icon: '<i class="fas fa-save"></i>',
                     callback: (html) => {
                         group.name = html.find('#group-name').val();
@@ -2690,7 +2690,7 @@ class MindMapEditor extends Application {
                     }
                 },
                 delete: {
-                    label: "Удалить",
+                    label: game.i18n.localize("SIMPLE_MINDMAP.BUTTON_DELETE"),
                     icon: '<i class="fas fa-trash"></i>',
                     callback: () => {
                         this.mapData.groups = this.mapData.groups.filter(g => g.id !== groupId);
@@ -2861,14 +2861,14 @@ Hooks.once('init', () => {
     });
 
     game.settings.register(MODULE_ID, 'theme', {
-        name: "Тема оформления",
-        hint: "Светлая или Темная тема для холста MindMap.",
+        name: game.i18n.localize("SIMPLE_MINDMAP.THEME_SETTING_NAME"),
+        hint: game.i18n.localize("SIMPLE_MINDMAP.THEME_SETTING_HINT"),
         scope: "client",
         config: true,
         type: String,
         choices: {
-            "dark": "Темная",
-            "light": "Светлая"
+            "dark": game.i18n.localize("SIMPLE_MINDMAP.THEME_DARK"),
+            "light": game.i18n.localize("SIMPLE_MINDMAP.THEME_LIGHT")
         },
         default: "dark",
         onChange: () => {
@@ -2879,8 +2879,8 @@ Hooks.once('init', () => {
     });
 
     game.settings.register(MODULE_ID, 'fontFamily', {
-        name: "Шрифт интерфейса",
-        hint: "Шрифт, который будет применяться к узлам и тексту на карте.",
+        name: game.i18n.localize("SIMPLE_MINDMAP.FONT_SETTING_NAME"),
+        hint: game.i18n.localize("SIMPLE_MINDMAP.FONT_SETTING_HINT"),
         scope: "client",
         config: true,
         type: String,
@@ -2900,8 +2900,8 @@ Hooks.once('init', () => {
     });
 
     game.settings.register(MODULE_ID, 'resetFloatingButton', {
-        name: "Вернуть кнопку в центр",
-        hint: "Поставьте галочку и сохраните, если вы потеряли плавающую кнопку MindMap (она вернётся в центр экрана).",
+        name: game.i18n.localize("SIMPLE_MINDMAP.RESET_BUTTON_SETTING_NAME"),
+        hint: game.i18n.localize("SIMPLE_MINDMAP.RESET_BUTTON_SETTING_HINT"),
         scope: "client",
         config: true,
         type: Boolean,
